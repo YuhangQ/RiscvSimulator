@@ -1,5 +1,3 @@
-target = simulater
-
 simulater: debug/main.o debug/test.o
 	cc $< -o $@
 
