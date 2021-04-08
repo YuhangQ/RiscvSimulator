@@ -33,7 +33,7 @@ debug/test.o: src/test.cpp include/test.h
 
 修改第一行，加入 .o 文件的路径
 ```makefile
-simulater: debug/main.o debug/test.o
+simulator: debug/main.o debug/test.o
 	cc $< -o $@
 ```
 

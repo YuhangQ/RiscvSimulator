@@ -1,4 +1,4 @@
-simulater: debug/main.o debug/test.o
+simulator: debug/main.o debug/test.o
 	cc $< -o $@
 
 debug/main.o: src/main.cpp include/main.h
