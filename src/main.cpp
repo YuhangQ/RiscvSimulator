@@ -1,7 +1,7 @@
 #include "../include/main.h"
 
-int main() {
-    printf("hello");
+int main(int argc, char *args[]) {
+    
     return 0;
 }
 
