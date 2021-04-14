@@ -1,17 +1,10 @@
-simulator: debug/main.o debug/test.o debug/logger.o debug/register.o debug/filehandler.o
+SRC_DIR := src
+OBJ_DIR := obj
+HEADER_DIR := include
+SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
+
+bin/simulator: $(OBJ_FILES)
 	g++ $^ -o $@
-
-debug/main.o: src/main.cpp include/main.h
-	g++ -c $< -o $@
-
-debug/test.o: src/test.cpp include/test.h
-	g++ -c $< -o $@
-
-debug/logger.o: src/logger.cpp include/logger.h
-	g++ -c $< -o $@
-
-debug/register.o: src/modules/register.cpp include/modules/register.h
-	g++ -c $< -o $@
-
-debug/filehandler.o: src/utils/filehandler.cpp src/utils/filehandler.h
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(HEADER_DIR)/%.h
 	g++ -c $< -o $@
