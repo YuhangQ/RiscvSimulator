@@ -1,6 +1,24 @@
 #include "../include/register.h"
 
+
+long long& Register::get(int index) {
+    return reg[index];
+}
+long long& Register::get(std::string s) {
+    return reg[mp[s]];
+}
+
+void Register::set(int index, long long value) {
+    reg[index] = value;
+}
+void Register::set(std::string s, long long value) {
+    reg[mp[s]] = value;
+}
+
 Register::Register() {
+
+    memset(reg, 0, sizeof(reg));
+
     mp["zero"] = 0;
     mp["ra"] = 1;
     mp["sp"] = 2;

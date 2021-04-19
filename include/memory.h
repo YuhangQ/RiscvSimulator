@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstring>
+
 class Memory {
 public:
     Memory();

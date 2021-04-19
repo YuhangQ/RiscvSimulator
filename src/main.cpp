@@ -25,7 +25,9 @@ int main(int argc, char *argv[]) {
     Logger::log("start simulator...");
     Simulator sim(codes);
 
-    sim.execToEnd();
+    sim.nextStep();
+
+    //sim.execToEnd();
 
     return 0;
 }
