@@ -92,6 +92,7 @@
         "stop_token": "cpp",
         "variant": "cpp",
         "dynamic_bitset": "cpp",
-        "compare": "cpp"
+        "compare": "cpp",
+        "*.def": "cpp"
     }
 }

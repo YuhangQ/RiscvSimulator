@@ -1,13 +1,18 @@
+#pragma once
+
 #include <string>
 #include <map>
 
 class Register {
 public:
     Register();
-    int get(int index);
-    int get(std::string s);
+    long long get(int index);
+    long long get(std::string s);
+    void set(int index, long long value);
+    void set(std::string s, long long value);
+    void clear();
 private:
-    int pc;
-    int reg[32];
-    std::map<std::string, int> mp;
+    long long pc;
+    long long reg[32];
+    std::map<std::string, long long> mp;
 };

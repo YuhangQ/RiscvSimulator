@@ -1,16 +1,37 @@
 #include "../include/codeparser.h"
 
+
+CodeParser::CodeParser(Register *reg, Memory *mem) {
+    this->reg = reg;
+    this->mem = mem;
+}
+
+std::vector<std::string> CodeParser::parseArgs(std::string args) {
+    
+}
+
+
 bool CodeParser::exec(std::string cmd) {
 
-    size_t index = cmd.find(' ');
+    const char* ccmd = cmd.c_str();
 
-    // not a valid command
-    if(index == cmd.npos) return false;
+    char commandNameArr[100];
+    char parameterArr[100];
 
-    std::string commandName = cmd.substr(0, index);
-    std::string parameter = cmd.substr(index, cmd.size());
+    sscanf(ccmd, "%s%s", commandNameArr, parameterArr);
 
-    Logger::log(commandName + " $$$$$$$$$$$$$$$$$$$$$ " + parameter);
+    std::string commandName(commandNameArr);
+    std::string parameter(parameterArr);
+
+    Logger::log(">> " + commandName + " - " + parameter);
+
+    auto args = parseArgs(parameter);
+
+    if(cmd == "addi") addi(args);
 
     return true;
+}
+
+bool CodeParser::addi(std::vector<std::string> args) {
+    
 }

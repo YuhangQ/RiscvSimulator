@@ -2,6 +2,7 @@
 #include <string>
 #include <algorithm>
 #include <vector>
-#include "../include/logger.h"
-#include "../include/filehandler.h"
-#include "../include/codeparser.h"
+#include "logger.h"
+#include "filehandler.h"
+#include "codeparser.h"
+#include "simulator.h"
