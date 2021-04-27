@@ -18,5 +18,5 @@ bool Command::exec() {
 }
 
 bool Command::addi() {
-    reg->set(args[0], reg->get(args[1]) + std::atol(args[2].c_str()));
+    //reg->set(args[0], reg->get(args[1]) + std::atol(args[2].c_str()));
 }

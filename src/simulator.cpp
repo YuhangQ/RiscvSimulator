@@ -6,8 +6,8 @@ Simulator::Simulator(std::vector<std::string> &input) {
     this->parser = new CodeParser(this->reg, this->mem);
     this->pc = &this->reg->get("pc");
 
-    Command::mem = this->mem;
-    Command::reg = this->reg;
+    //Command::mem = this->mem;
+    //Command::reg = this->reg;
 
     this->parseCommand(input);
 }
