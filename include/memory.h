@@ -13,6 +13,6 @@ public:
     void clearUsed();
     std::vector<int> getUsed();
 private:
-    long long mem[1024];
+    long long mem[4096];
     std::vector<int> used;
 };

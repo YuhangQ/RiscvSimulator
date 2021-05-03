@@ -25,8 +25,7 @@ public:
 private:
     Memory *mem;
     Register *reg;
-    long long *pc;
-    
+    long long pc;
     
     std::vector<Command> commands;
     std::map<std::string, int> jTarget;

@@ -3,12 +3,16 @@
 Simulator::Simulator(std::vector<std::string> &input) {
     this->mem = new Memory();
     this->reg = new Register();
-    this->pc = &this->reg->get("pc");
+    this->pc = 0;
 
     Command::mem = this->mem;
     Command::reg = this->reg;
+    Command::pc = &this->pc;
+    Command::jTarget = &this->jTarget;
 
     this->parseCommand(input);
+
+    pc = jTarget["main"];
 }
 
 void Simulator::parseCommand(std::vector<std::string> &input) {
@@ -28,14 +32,14 @@ void Simulator::parseCommand(std::vector<std::string> &input) {
 
         size_t index;
         if((index = commandName.find(":")) != commandName.npos) {
-            this->jTarget[commandName.substr(index)] = this->commands.size();
+            this->jTarget[commandName.substr(0, commandName.size()-1)] = this->commands.size();
             Logger::log("add tag: " + commandName + "-> " +  std::to_string(this->commands.size()));
             continue;
         } else if(commandName[0] == '.') {
             continue;
         }
 
-        Logger::log("new command "+std::to_string(this->commands.size())+": " + commandName);
+        Logger::log(std::to_string(this->commands.size())+": " + commandName);
 
         Command cmd(commandName, args);
         this->commands.push_back(cmd);
@@ -50,11 +54,13 @@ Simulator::~Simulator() {
 
 int Simulator::nextStep() {
 
+    if(end()) return -1;
+
     reg->clearUsed();
     mem->clearUsed();
 
-    this->commands[*this->pc].exec();
-    (*this->pc)++;
+    this->commands[pc].exec();
+    pc++;
 
     for(int i=0; i<reg->getUsed().size(); i++) {
         Logger::log("reg["+reg->getUsed()[i]+"] = " + std::to_string(reg->get(reg->getUsed()[i])));
@@ -68,6 +74,7 @@ int Simulator::nextStep() {
 
 bool Simulator::end() {
     // todo
+    return pc >= this->commands.size() - 1;
 }
 
 void Simulator::execToEnd() {

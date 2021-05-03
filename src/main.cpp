@@ -21,9 +21,8 @@ int main(int argc, char *argv[]) {
     while(true) {
         getchar();
         sim.nextStep();
+        if(sim.end()) break;
     }
-
-    //sim.execToEnd();
 
     return 0;
 }

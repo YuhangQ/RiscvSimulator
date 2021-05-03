@@ -1,10 +1,10 @@
 #include "../include/register.h"
 
 
-long long& Register::get(int index) {
+long long Register::get(int index) {
     return reg[index];
 }
-long long& Register::get(std::string s) {
+long long Register::get(std::string s) {
     return reg[mp[s]];
 }
 
@@ -26,6 +26,8 @@ std::vector<std::string> Register::getUsed() {
 Register::Register() {
 
     memset(reg, 0, sizeof(reg));
+
+    reg[2] = 32;
 
     mp["zero"] = 0;
     mp["ra"] = 1;
@@ -54,5 +56,6 @@ Register::Register() {
         mp["t" + std::to_string(i)] = 25 + i;
     }
 
-    Logger::log(get("zero"));
+    //Logger::log(mp["zero"]);
+
 }

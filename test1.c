@@ -1,30 +1,35 @@
-//n numbers, m orders
-//at first, all bits are 0 
-//1 l r : flipped the bits in [l,r]
-//2 x: print the bit at x
-#include<stdio.h>
-int s[1023];
-int n,m;
-void rev(int x)
-{
-	for (;x<=n;x+=x&(-x))
-	    s[x]^=1;
-}
-int sub(int x)
-{
-	int ans=0;
-	for (;x;x-=x&(-x))
-	    ans^=s[x];
-	return ans;
-}
-int main()
-{
-	scanf("%d%d",&n,&m);
-	while (m--)
-	{
-		int opt,l,r; 
-		scanf("%d%d",&opt,&l);
-		if (opt==1) scanf("%d",&r),rev(l),rev(r+1);
-		else printf("%d\n",sub(l));
+#define lowbit(x) ((x)&(-x))
+int tree[500010],a[500010],n;
+void update(int x,int k) {
+	while(x<=n) {
+		tree[x]+=k;
+		x+=lowbit(x);
 	}
+}
+void build() {
+	for(int i=1; i<=n; i++) update(i,a[i]);
+}
+
+int query(int x) {
+	int sum=0;
+	while(x) {
+		sum+=tree[x];
+		x-=lowbit(x);
+	}
+	return sum;
+}
+int main() {
+	int m,mode,left,right;
+	n = 10;
+	for(int i=1; i<=n; i++) a[i] = 1;
+	build();
+	
+	update(1, 3);
+	update(2, 4);
+	update(3, 5);
+	update(6, -5);
+
+	int ans = query(10);
+
+	return 0;
 }
