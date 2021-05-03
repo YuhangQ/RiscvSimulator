@@ -8,6 +8,10 @@ void Logger::log(const char *&s) {
     log(std::string(s));
 }
 
+void Logger::log(const long long &num) {
+    log(std::to_string(num));
+}
+
 std::string Logger::getTimeHead() {
     time_t now = time(0);
     tm *ltm = localtime(&now);

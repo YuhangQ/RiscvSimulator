@@ -13,6 +13,14 @@ void Register::set(int index, long long value) {
 }
 void Register::set(std::string s, long long value) {
     reg[mp[s]] = value;
+    used.push_back(s);
+}
+
+void Register::clearUsed() {
+    this->used.clear();
+}
+std::vector<std::string> Register::getUsed() {
+    return this->used;
 }
 
 Register::Register() {
@@ -45,4 +53,6 @@ Register::Register() {
     for(int i=3; i<=6; i++) {
         mp["t" + std::to_string(i)] = 25 + i;
     }
+
+    Logger::log(get("zero"));
 }

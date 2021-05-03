@@ -8,24 +8,20 @@ int main(int argc, char *argv[]) {
 
     Logger::log("input file: " + std::string(argv[1]));
 
-    freopen(argv[1], "r", stdin);
-
     FileHandler file(argv[1]);
     std::vector<std::string> codes = file.readLines();
 
-    Logger::log("read file content");
-    std::string line;
-    while(getline(std::cin, line)) {
-        codes.push_back(line);
-        Logger::log(line);
-    }
-    fclose(stdin);
     Logger::log("read file finished!");
 
     Logger::log("start simulator...");
     Simulator sim(codes);
 
-    sim.nextStep();
+    Logger::log("-----------------------------------");
+
+    while(true) {
+        getchar();
+        sim.nextStep();
+    }
 
     //sim.execToEnd();
 

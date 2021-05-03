@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstring>
+#include <vector>
+#include <string>
 
 class Memory {
 public:
@@ -8,6 +10,9 @@ public:
     long long get(int index);
     long long set(int index, long long value);
     void clear();
+    void clearUsed();
+    std::vector<int> getUsed();
 private:
     long long mem[1024];
+    std::vector<int> used;
 };

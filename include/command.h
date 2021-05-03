@@ -2,9 +2,13 @@
 
 #include <string>
 #include <vector>
+
 #include "logger.h"
 #include "register.h"
 #include "memory.h"
+#include "utils.h"
+
+
 
 class Command {
 public:
@@ -15,6 +19,8 @@ public:
 private:
     std::string name;
     std::vector<std::string> args;
-
+    std::pair<std::string, int> offsetParser(std::string s);
     bool addi();
+    bool sd();
+    bool sw();
 };
