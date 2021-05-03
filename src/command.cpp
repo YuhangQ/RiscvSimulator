@@ -35,6 +35,7 @@ bool Command::exec() {
     if(name == "ld") return ld();
     if(name == "call") return call();
     if(name == "jr") return jr();
+    if(name == "nop") return true;
 
     Logger::log("stop..... no handler of " + name);
     exit(0);

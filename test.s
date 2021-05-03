@@ -8,14 +8,30 @@
 	.globl	hello
 	.type	hello, @function
 hello:
-	addi	sp,sp,-16
-	sd	s0,8(sp)
-	addi	s0,sp,16
-	li	a5,8192
-	addi	a5,a5,1894
+	addi	sp,sp,-32
+	sd	s0,24(sp)
+	addi	s0,sp,32
+	sw	zero,-20(s0)
+	li	a5,1
+	sw	a5,-24(s0)
+	j	.L2
+.L3:
+	lw	a4,-20(s0)
+	lw	a5,-24(s0)
+	addw	a5,a4,a5
+	sw	a5,-20(s0)
+	lw	a5,-24(s0)
+	addiw	a5,a5,1
+	sw	a5,-24(s0)
+.L2:
+	lw	a5,-24(s0)
+	sext.w	a4,a5
+	li	a5,50
+	ble	a4,a5,.L3
+	nop
 	mv	a0,a5
-	ld	s0,8(sp)
-	addi	sp,sp,16
+	ld	s0,24(sp)
+	addi	sp,sp,32
 	jr	ra
 	.size	hello, .-hello
 	.align	1
@@ -28,11 +44,23 @@ main:
 	addi	s0,sp,32
 	call	hello
 	mv	a5,a0
-	mv	a4,a5
-	li	a5,8192
-	addiw	a5,a5,1818
+	sw	a5,-20(s0)
+	li	a5,51
+	sw	a5,-24(s0)
+	j	.L5
+.L6:
+	lw	a4,-20(s0)
+	lw	a5,-24(s0)
 	addw	a5,a4,a5
 	sw	a5,-20(s0)
+	lw	a5,-24(s0)
+	addiw	a5,a5,1
+	sw	a5,-24(s0)
+.L5:
+	lw	a5,-24(s0)
+	sext.w	a4,a5
+	li	a5,100
+	ble	a4,a5,.L6
 	li	a5,0
 	mv	a0,a5
 	ld	ra,24(sp)

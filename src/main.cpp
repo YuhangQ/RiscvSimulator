@@ -18,6 +18,8 @@ int main(int argc, char *argv[]) {
 
     Logger::log("-----------------------------------");
 
+    sim.execToEnd();
+
     while(true) {
         getchar();
         sim.nextStep();

@@ -27,7 +27,8 @@ Register::Register() {
 
     memset(reg, 0, sizeof(reg));
 
-    reg[2] = 32;
+    reg[2] = 1024;
+    reg[8] = 1024;
 
     mp["zero"] = 0;
     mp["ra"] = 1;
