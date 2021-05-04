@@ -1,4 +1,5 @@
-debug
-simulator
-compiler
-obj
+.vscode
+app
+build
+package
+node_modules

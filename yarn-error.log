@@ -1,0 +1,56 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add monaco-editor@0.23.0
+
+PATH: 
+  C:\Users\YuhangQ\anaconda3;C:\Users\YuhangQ\anaconda3\Library\mingw-w64\bin;C:\Users\YuhangQ\anaconda3\Library\usr\bin;C:\Users\YuhangQ\anaconda3\Library\bin;C:\Users\YuhangQ\anaconda3\Scripts;C:\Users\YuhangQ\anaconda3\bin;C:\Users\YuhangQ\anaconda3\condabin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Go\bin;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Users\YuhangQ\Apps\Scripts;C:\Program Files (x86)\Yarn\bin;C:\Users\YuhangQ\anaconda3\Scripts;C:\Users\YuhangQ\anaconda3;C:\Users\YuhangQ\anaconda3\Library\bin;C:\Program Files\Java\jdk1.8.0_251\bin;C:\Program Files\R\R-4.0.3\bin;C:\Users\YuhangQ\Apps\Neovim\bin;C:\Program Files\mingw-w64\x86_64-8.1.0-win32-seh-rt_v6-rev0\mingw64\bin;C:\Program Files\Java\jdk-11.0.9\bin;C:\Users\YuhangQ\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Bandizip;C:\Users\YuhangQ\go\bin;C:\Users\YuhangQ\AppData\Roaming\npm;C:\Users\YuhangQ\AppData\Local\Yarn\bin;C:\Users\YuhangQ\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2020.3.3\bin;C:\Program Files\Java\jre1.8.0_271\bin;C:\Users\YuhangQ\Apps\7cow;C:\Users\YuhangQ\.cargo\bin;C:\Users\YuhangQ\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Bandizip;C:\Users\YuhangQ\go\bin;C:\Users\YuhangQ\AppData\Roaming\npm;C:\Users\YuhangQ\AppData\Local\Yarn\bin;C:\Users\YuhangQ\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2020.3.3\bin;.
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  12.19.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile 'C:\Users\YuhangQ\AppData\Local\Yarn\Cache\v6\npm-yallist-2.1.2-1c11f9218f076089a47dd512f93c6699a6a81d52-integrity\node_modules\yallist\package.json' -> 'C:\Users\YuhangQ\Desktop\Simulator\node_modules\cross-spawn\node_modules\yallist\package.json'
+
+npm manifest: 
+  {
+    "name": "cubetext",
+    "version": "1.0.0",
+    "dependencies": {
+      "dragula": "^3.7.2",
+      "electron-tabs": "^0.9.5",
+      "iconv-lite": "^0.5.0",
+      "jsonc": "^2.0.0",
+      "monaco-editor": "0.19.0"
+    },
+    "scripts": {
+      "start": "electron .",
+      "build": "electron-builder",
+      "pack": "electron-builder --dir"
+    },
+    "main": "main.js",
+    "devDependencies": {
+      "electron": "^7.1.7",
+      "electron-builder": "^21.2.0"
+    },
+    "build": {
+      "asar": "false",
+      "appId": "me.yuhangq.cubetext",
+      "win": {
+        "target": "dir"
+      },
+      "directories": {
+        "output": "package"
+      }
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

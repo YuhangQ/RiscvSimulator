@@ -1,0 +1,31 @@
+{
+  "name": "cubetext",
+  "version": "1.0.0",
+  "dependencies": {
+    "dragula": "^3.7.2",
+    "electron-tabs": "^0.9.5",
+    "iconv-lite": "^0.5.0",
+    "jsonc": "^2.0.0",
+    "monaco-editor": "0.19.0"
+  },
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "pack": "electron-builder --dir"
+  },
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "^7.1.7",
+    "electron-builder": "^21.2.0"
+  },
+  "build": {
+    "asar": "false",
+    "appId": "me.yuhangq.cubetext",
+    "win": {
+      "target": "dir"
+    },
+    "directories": {
+      "output": "package"
+    }
+  }
+}
