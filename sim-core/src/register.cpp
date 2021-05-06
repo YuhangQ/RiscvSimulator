@@ -5,14 +5,16 @@ long long Register::get(int index) {
     return reg[index];
 }
 long long Register::get(std::string s) {
-    return reg[mp[s]];
+    return get(mp[s]);
 }
 
 void Register::set(int index, long long value) {
+    if(!index) return;
     reg[index] = value;
 }
 void Register::set(std::string s, long long value) {
-    reg[mp[s]] = value;
+    if(s == "zero") return;
+    set(mp[s], value);
     used.push_back(s);
 }
 
@@ -27,8 +29,8 @@ Register::Register() {
 
     memset(reg, 0, sizeof(reg));
 
-    reg[2] = 1024;
-    reg[8] = 1024;
+    reg[2] = 1024; // stack pointer
+    reg[8] = 1024; // frame pointer
 
     mp["zero"] = 0;
     mp["ra"] = 1;
@@ -56,7 +58,5 @@ Register::Register() {
     for(int i=3; i<=6; i++) {
         mp["t" + std::to_string(i)] = 25 + i;
     }
-
-    //Logger::log(mp["zero"]);
 
 }

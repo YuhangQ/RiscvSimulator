@@ -85,7 +85,6 @@ void Simulator::nextStep() {
 }
 
 bool Simulator::end() {
-    // todo
     return pc >= this->commands.size() - 1;
 }
 
