@@ -112,8 +112,6 @@ bool Command::exec() {
     if(name == "sgtz") return sgtz();
 
     Logger::log("stop..... no handler of " + name);
-    exit(1);
-
     return false;
 }
 

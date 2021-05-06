@@ -64,14 +64,14 @@ Simulator::~Simulator() {
     delete this->reg;
 }
 
-void Simulator::nextStep() {
+bool Simulator::nextStep() {
 
-    if(end()) return;
+    if(end()) return true;
 
     reg->clearUsed();
     mem->clearUsed();
 
-    this->commands[pc].exec();
+    bool res = this->commands[pc].exec();
     pc++;
 
 
@@ -82,6 +82,7 @@ void Simulator::nextStep() {
     for(int i=0; i<mem->getUsed().size(); i++) {
         Logger::log("mem["+std::to_string(mem->getUsed()[i])+"] = " + std::to_string(mem->get(mem->getUsed()[i])));
     }
+    return res;
 }
 
 bool Simulator::end() {

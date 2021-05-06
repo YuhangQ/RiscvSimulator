@@ -22,12 +22,12 @@ Number curLine(const CallbackInfo& info) {
     return Number::New(info.Env(), sim->currentLine());
 }
 
-void nextStep(const CallbackInfo& info) {
-    sim->nextStep();
+Boolean nextStep(const CallbackInfo& info) {
+    return Boolean::New(info.Env(), sim->nextStep());
 }
 
-void end(const CallbackInfo& info) {
-    sim->execToEnd();
+Boolean end(const CallbackInfo& info) {
+    return Boolean::New(info.Env(), sim->end());
 }
 
 String getLogs(const CallbackInfo& info) {

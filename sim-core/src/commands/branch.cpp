@@ -8,7 +8,15 @@ bool Command::jalr() { return false; } // TODO
 
 // BRANCH
 bool Command::beq() { return false; } // TODO
-bool Command::bne() { return false; } // TODO
+bool Command::bne() {
+    try{
+        if(reg->get(args[0]) != reg->get(args[1])) {
+            *(this->pc) = (*jTarget)[args[2]] - 1;
+            Logger::log("pc = " + std::to_string((*jTarget)[args[2]] - 1));
+        }
+    } catch(...) { return false; }
+    return true;
+}
 bool Command::blt() { return false; } // TODO
 bool Command::bge() {
     if(reg->get(args[0]) >= reg->get(args[1])) {
