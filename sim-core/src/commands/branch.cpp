@@ -11,6 +11,7 @@ void Command::jumpTo(std::string& label) {
 // JAL
 bool Command::jal() {
     if(args.size() == 1) {
+        args.resize(2);
         args[1] = args[0];
         args[0] = "ra";
     }
@@ -22,6 +23,7 @@ bool Command::jal() {
 // JALR
 bool Command::jalr() {
     if(args.size() == 1) {
+        args.resize(3);
         args[1] = args[0];
         args[0] = "ra";
         args[2] = "0";
@@ -63,17 +65,20 @@ bool Command::bgeu() {
 
 // pseudo
 bool Command::j() {
+    args.resize(2);
     args[1] = args[0];
     args[0] = "zero";
     return jal();
 }
 bool Command::jr() {
+    args.resize(3);
     args[1] = args[0];
     args[0] = "zero";
     args[2] = "0";
     return jalr();
 }
 bool Command::ret() {
+    args.resize(3);
     args[0] = "zero";
     args[1] = "ra";
     args[2] = "0";
@@ -88,32 +93,38 @@ bool Command::tail() {
 
 // pseudo branch
 bool Command::beqz() {
+    args.resize(3);
     args[2] = args[1];
     args[1] = "zero";
     return beq();
 }
 bool Command::bnez() {
+    args.resize(3);
     args[2] = args[1];
     args[1] = "zero";
     return bne();
 }
 bool Command::blez() {
+    args.resize(3);
     args[2] = args[1];
     args[1] = args[0];
     args[0] = "zero";
     return bge();
 }
 bool Command::bgez() {
+    args.resize(3);
     args[2] = args[1];
     args[1] = "zero";
     return bge();
 }
 bool Command::bltz() {
+    args.resize(3);
     args[2] = args[1];
     args[1] = "zero";
     return blt();
 }
 bool Command::bgtz() {
+    args.resize(3);
     args[2] = args[1];
     args[1] = args[0];
     args[0] = "zero";
