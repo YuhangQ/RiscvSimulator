@@ -53,7 +53,7 @@ bool Command::bge() {
 bool Command::bltu() {
     if (static_cast<unsigned long long>(reg->get(args[0]))
         < static_cast<unsigned long long>(reg->get(args[1]))
-    ) jumpTo(args[2]);
+        ) jumpTo(args[2]);
     return true;
 }
 bool Command::bgeu() {
@@ -68,6 +68,7 @@ bool Command::j() {
     args.resize(2);
     args[1] = args[0];
     args[0] = "zero";
+    name = "jal";
     return jal();
 }
 bool Command::jr() {
@@ -75,6 +76,7 @@ bool Command::jr() {
     args[1] = args[0];
     args[0] = "zero";
     args[2] = "0";
+    name = "jalr";
     return jalr();
 }
 bool Command::ret() {
@@ -82,12 +84,15 @@ bool Command::ret() {
     args[0] = "zero";
     args[1] = "ra";
     args[2] = "0";
+    name = "jalr";
     return jalr();
 }
 bool Command::call() {
-   return jal();
+    name = "jal";
+    return jal();
 }
 bool Command::tail() {
+    name = "j";
     return j();
 }
 
@@ -96,12 +101,14 @@ bool Command::beqz() {
     args.resize(3);
     args[2] = args[1];
     args[1] = "zero";
+    name = "beq";
     return beq();
 }
 bool Command::bnez() {
     args.resize(3);
     args[2] = args[1];
     args[1] = "zero";
+    name = "bne";
     return bne();
 }
 bool Command::blez() {
@@ -109,18 +116,21 @@ bool Command::blez() {
     args[2] = args[1];
     args[1] = args[0];
     args[0] = "zero";
+    name = "bge";
     return bge();
 }
 bool Command::bgez() {
     args.resize(3);
     args[2] = args[1];
     args[1] = "zero";
+    name = "bge";
     return bge();
 }
 bool Command::bltz() {
     args.resize(3);
     args[2] = args[1];
     args[1] = "zero";
+    name = "blt";
     return blt();
 }
 bool Command::bgtz() {
@@ -128,21 +138,26 @@ bool Command::bgtz() {
     args[2] = args[1];
     args[1] = args[0];
     args[0] = "zero";
+    name = "blt";
     return blt();
 }
 bool Command::bgt() {
     std::swap(args[0], args[1]);
+    name = "blt";
     return blt();
 }
 bool Command::ble() {
     std::swap(args[0], args[1]);
+    name = "bge";
     return bge();
 }
 bool Command::bgtu() {
     std::swap(args[0], args[1]);
+    name = "bltu";
     return bltu();
 }
 bool Command::bleu() {
     std::swap(args[0], args[1]);
+    name = "bgeu";
     return bgeu();
 }
