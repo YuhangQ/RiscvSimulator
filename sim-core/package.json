@@ -1,7 +1,6 @@
 {
-    "name": "simulator",
-    "version": "1.0",
-    "private": true,
+    "name": "riscv-simulator",
+    "version": "0.1.2",
     "gypfile": true,
     "dependencies": {
         "node-addon-api": "^3.1.0"
