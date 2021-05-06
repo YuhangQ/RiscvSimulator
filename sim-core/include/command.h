@@ -21,7 +21,7 @@ public:
 private:
     std::string name;
     std::vector<std::string> args;
-    std::pair<std::string, int> offsetParser(std::string s);
+    int offsetParser(std::string s);
     #include "commands/branch.h"
     #include "commands/mem.h"
     #include "commands/misc.h"

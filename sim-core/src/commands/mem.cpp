@@ -1,32 +1,115 @@
 #include "../../include/command.h"
 
 // LOAD
-bool Command::lb() { return false; } // TODO
-bool Command::lh() { return false; } // TODO
+bool Command::lb() {
+    int addr = offsetParser(args[1]);
+    unsigned long long data = static_cast<unsigned long long>(mem->get(addr/8*8));
+    data = (data>>(addr%8*8))&0xffll;
+    if(data & (1<<7)) data |= 0xffffffffffffff00ll;
+    reg->set(args[0], static_cast<long long>(data));
+    return true;
+}
+bool Command::lh() {
+    int addr = offsetParser(args[1]);
+    if (addr % 2) {
+        Logger::log("Misaligned memory access");
+        return false;
+    }
+    unsigned long long data = static_cast<unsigned long long>(mem->get(addr/8*8));
+    data = (data>>(addr%8*8))&0xffffll;
+    if(data & (1<<15)) data |= 0xffffffffffff0000ll;
+    reg->set(args[0], static_cast<long long>(data));
+    return true;
+}
 bool Command::lw() {
-    auto addr = offsetParser(args[1]);
-    reg->set(args[0], (int)mem->get(reg->get(addr.first) + addr.second));
+    int addr = offsetParser(args[1]);
+    if (addr % 4) {
+        Logger::log("Misaligned memory access");
+        return false;
+    }
+    unsigned long long data = static_cast<unsigned long long>(mem->get(addr/8*8));
+    data = (data>>(addr%8*8))&0xffffffffll;
+    if(data & (1<<31)) data |= 0xffffffff00000000ll;
+    reg->set(args[0], static_cast<long long>(data));
     return true;
 }
 bool Command::ld() {
-    auto addr = offsetParser(args[1]);
-    reg->set(args[0], mem->get(reg->get(addr.first) + addr.second));
+    int addr = offsetParser(args[1]);
+    if (addr % 8) {
+        Logger::log("Misaligned memory access");
+        return false;
+    }
+    reg->set(args[0], mem->get(addr));
     return true;
 }
-bool Command::lbu() { return false; } // TODO
-bool Command::lhu() { return false; } // TODO
-bool Command::lwu() { return false; } // TODO
+bool Command::lbu() {
+    int addr = offsetParser(args[1]);
+    unsigned long long data = static_cast<unsigned long long>(mem->get(addr/8*8));
+    data = (data>>(addr%8*8))&0xffll;
+    reg->set(args[0], static_cast<long long>(data));
+    return true;
+}
+bool Command::lhu() {
+    int addr = offsetParser(args[1]);
+    if (addr % 2) {
+        Logger::log("Misaligned memory access");
+        return false;
+    }
+    unsigned long long data = static_cast<unsigned long long>(mem->get(addr/8*8));
+    data = (data>>(addr%8*8))&0xffffll;
+    reg->set(args[0], static_cast<long long>(data));
+    return true;
+}
+bool Command::lwu() {
+    int addr = offsetParser(args[1]);
+    if (addr % 4) {
+        Logger::log("Misaligned memory access");
+        return false;
+    }
+    unsigned long long data = static_cast<unsigned long long>(mem->get(addr/8*8));
+    data = (data>>(addr%8*8))&0xffffffffll;
+    reg->set(args[0], static_cast<long long>(data));
+    return true;
+}
 
 // STORE
-bool Command::sb() { return false; } // TODO
-bool Command::sh() { return false; } // TODO
+bool Command::sb() {
+    int addr = offsetParser(args[1]);
+    unsigned long long data = static_cast<unsigned long long>(mem->get(addr/8*8));
+    unsigned long long wdata = static_cast<unsigned long long>(reg->get(args[0]));
+    data = data&((-1ll)^(0xffllu<<(addr%8*8)));
+    data |= (wdata&0xffllu)<<(addr%8*8);
+    mem->set(addr/8*8, data);
+    return true;
+} // TODO
+bool Command::sh() {
+    int addr = offsetParser(args[1]);
+    if (addr % 2) {
+        Logger::log("Misaligned memory access");
+        return false;
+    }
+    unsigned long long data = static_cast<unsigned long long>(mem->get(addr/8*8));
+    unsigned long long wdata = static_cast<unsigned long long>(reg->get(args[0]));
+    data = data&((-1ll)^(0xffffllu<<(addr%8*8)));
+    data |= (wdata&0xffffllu)<<(addr%8*8);
+    mem->set(addr/8*8, data);
+    return true;
+}
 bool Command::sw() {
-    auto addr = offsetParser(args[1]);
-    mem->set(reg->get(addr.first)+addr.second, reg->get(args[0]));
+    int addr = offsetParser(args[1]);
+    if (addr % 4) {
+        Logger::log("Misaligned memory access");
+        return false;
+    }
+    unsigned long long data = static_cast<unsigned long long>(mem->get(addr/8*8));
+    unsigned long long wdata = static_cast<unsigned long long>(reg->get(args[0]));
+    data = data&((-1ll)^(0xffffffffllu<<(addr%8*8)));
+    data |= (wdata&0xffffffffllu)<<(addr%8*8);
+    mem->set(addr/8*8, data);
     return true;
 }
 bool Command::sd() {
-    auto addr = offsetParser(args[1]);
-    mem->set(reg->get(addr.first)+addr.second, reg->get(args[0]));
+    int addr = offsetParser(args[1]);
+    mem->set(addr, reg->get(args[0]));
     return true;
 }

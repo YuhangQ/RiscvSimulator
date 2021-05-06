@@ -118,9 +118,9 @@ bool Command::exec() {
     return false;
 }
 
-std::pair<std::string, int> Command::offsetParser(std::string s) {
+int Command::offsetParser(std::string s) {
     std::vector<std::string> res = Utils::splitString(s, "(");
     int offset = std::atoi(res[0].c_str());
     std::string t = res[1].substr(0, res[1].size()-1);
-    return make_pair(t, offset);
+    return reg->get(t)+offset;
 }
