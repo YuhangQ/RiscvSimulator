@@ -10,8 +10,34 @@ let memBody = document.getElementById("membody");
 
 let err = false;
 
-
 loadComponents(() => {
+
+    monaco.languages.register({ id: 'riscv' });
+    monaco.languages.setMonarchTokensProvider('riscv', {
+        tokenizer: {
+            root: [
+                [/\b(\-|\+)?\d+(\.\d+)?\b/, "custom-error"],
+                [/\b(zero|ra|sp|gp|tp|t0|t1|t2|s0|fp|s1|a0|a1|a2|a3|a4|a5|a6|a7|s2|s3|s4|s5|s6|s7|s8|s9|s10|s11|t3|t4|t5|t6)\b/, "custom-notice"],
+                [/^[\. a-zA-Z 0-9]+:/, "tag"],
+                [/\b(addi|sd|sw|li|jr|lw|sext.w|addw|bge|ble|mulw|addiw|mv|ld|call|j|beq|bne)\b/, "custom-date"],
+            ]
+        }
+    });
+
+    monaco.editor.defineTheme('myTheme', {
+        base: 'vs',
+        inherit: false,
+        rules: [
+            { token: 'tag', foreground: 'a31515' },
+            { token: 'custom-error', foreground: '09869e'},
+            { token: 'custom-notice', foreground: 'FFA500' },
+            { token: 'custom-date', foreground: '0000FF' },
+        ],
+        colors: {}
+    });
+
+
+
     let editor = monaco.editor.create(document.getElementById("editor"), {
         value: `	.file	"test.c"
     .option nopic
@@ -50,7 +76,8 @@ main:
     jr	ra
     .size	main, .-main
     .ident	"GCC: (GNU) 10.2.0"`,
-        language: "plain",
+        language: "riscv",
+        theme: "myTheme",
         automaticLayout: true,
         fontSize: 18,
         autoClosingBrackets: "always",

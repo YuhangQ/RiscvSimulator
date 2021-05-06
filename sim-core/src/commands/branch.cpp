@@ -7,7 +7,16 @@ bool Command::jal() { return false; } // TODO
 bool Command::jalr() { return false; } // TODO
 
 // BRANCH
-bool Command::beq() { return false; } // TODO
+bool Command::beq() {
+    try{
+    
+    if(reg->get(args[0]) == reg->get(args[1])) {
+        *(this->pc) = (*jTarget)[args[2]] - 1;
+        Logger::log("pc = " + std::to_string((*jTarget)[args[2]] - 1));
+    }
+
+    }catch(...){return false;}
+    return true; } // TODO
 bool Command::bne() {
     try{
         if(reg->get(args[0]) != reg->get(args[1])) {
