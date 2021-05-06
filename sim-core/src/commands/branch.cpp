@@ -1,83 +1,137 @@
 #include "../../include/command.h"
 
+void Command::jumpTo(int addr) {
+    *pc = addr - 1;
+    Logger::log("pc = " + std::to_string(addr - 1));
+}
+void Command::jumpTo(std::string& label) {
+    jumpTo((*jTarget)[label]);
+}
+
 // JAL
-bool Command::jal() { return false; } // TODO
+bool Command::jal() {
+    if(args.size() == 1) {
+        args[1] = args[0];
+        args[0] = "ra";
+    }
+    reg->set(args[0], (*pc)+1);
+    jumpTo(args[1]);
+    return true;
+}
 
 // JALR
-bool Command::jalr() { return false; } // TODO
+bool Command::jalr() {
+    if(args.size() == 1) {
+        args[1] = args[0];
+        args[0] = "ra";
+        args[2] = "0";
+    }
+    reg->set(args[0], (*pc)+1);
+    jumpTo(reg->get(args[1]) + std::atoi(args[2].c_str()));
+    return true;
+}
 
 // BRANCH
 bool Command::beq() {
-    try{
-    
-    if(reg->get(args[0]) == reg->get(args[1])) {
-        *(this->pc) = (*jTarget)[args[2]] - 1;
-        Logger::log("pc = " + std::to_string((*jTarget)[args[2]] - 1));
-    }
-
-    }catch(...){return false;}
-    return true; } // TODO
+    if (reg->get(args[0]) == reg->get(args[1])) jumpTo(args[2]);
+    return true;
+}
 bool Command::bne() {
-    try{
-        if(reg->get(args[0]) != reg->get(args[1])) {
-            *(this->pc) = (*jTarget)[args[2]] - 1;
-            Logger::log("pc = " + std::to_string((*jTarget)[args[2]] - 1));
-        }
-    } catch(...) { return false; }
+    if (reg->get(args[0]) != reg->get(args[1])) jumpTo(args[2]);
     return true;
 }
-bool Command::blt() { return false; } // TODO
+bool Command::blt() {
+    if (reg->get(args[0]) < reg->get(args[1])) jumpTo(args[2]);
+    return true;
+}
 bool Command::bge() {
-    if(reg->get(args[0]) >= reg->get(args[1])) {
-        *(this->pc) = (*jTarget)[args[2]] - 1;
-        Logger::log("pc = " + std::to_string((*jTarget)[args[2]]));
-    }
+    if (reg->get(args[0]) >= reg->get(args[1])) jumpTo(args[2]);
     return true;
 }
-bool Command::bltu() { return false; } // TODO
-bool Command::bgeu() { return false; } // TODO
+bool Command::bltu() {
+    if (static_cast<unsigned long long>(reg->get(args[0]))
+        < static_cast<unsigned long long>(reg->get(args[1]))
+    ) jumpTo(args[2]);
+    return true;
+}
+bool Command::bgeu() {
+    if (static_cast<unsigned long long>(reg->get(args[0]))
+        >= static_cast<unsigned long long>(reg->get(args[1]))
+    ) jumpTo(args[2]);
+    return true;
+}
 
 // pseudo
 bool Command::j() {
-    *(this->pc) = (*jTarget)[args[0]] - 1;
-    /*
-    for(auto it = jTarget->begin(); it != jTarget->end(); it++) {
-        Logger::log(it->first + ":" + std::to_string(it->second));
-    }
-    */
-    Logger::log("pc = " + std::to_string((*jTarget)[args[0]]));
-    return true;
+    args[1] = args[0];
+    args[0] = "zero";
+    return jal();
 }
 bool Command::jr() {
-    *(this->pc) = reg->get(args[0]);
-    Logger::log("pc = " + std::to_string(reg->get(args[0])));
-
-    return true;
+    args[1] = args[0];
+    args[0] = "zero";
+    args[2] = "0";
+    return jalr();
 }
-bool Command::ret() { return false; } // TODO
+bool Command::ret() {
+    args[0] = "zero";
+    args[1] = "ra";
+    args[2] = "0";
+    return jalr();
+}
 bool Command::call() {
-    reg->set("ra", *pc);
-    *(this->pc) = (*jTarget)[args[0]] - 1;
-    Logger::log("pc = " + std::to_string((*jTarget)[args[0]] - 1));
-
-    return true;
+   return jal();
 }
-bool Command::tail() { return false; } // TODO
+bool Command::tail() {
+    return j();
+}
 
 // pseudo branch
-bool Command::beqz() { return false; } // TODO
-bool Command::bnez() { return false; } // TODO
-bool Command::blez() { return false; } // TODO
-bool Command::bgez() { return false; } // TODO
-bool Command::bltz() { return false; } // TODO
-bool Command::bgtz() { return false; } // TODO
-bool Command::bgt() { return false; } // TODO
-bool Command::ble() {
-    if(reg->get(args[0]) <= reg->get(args[1])) {
-        *(this->pc) = (*jTarget)[args[2]] - 1;
-        Logger::log("pc = " + std::to_string((*jTarget)[args[2]]));
-    }
-    return true;
+bool Command::beqz() {
+    args[2] = args[1];
+    args[1] = "zero";
+    return beq();
 }
-bool Command::bgtu() { return false; } // TODO
-bool Command::bleu() { return false; } // TODO
+bool Command::bnez() {
+    args[2] = args[1];
+    args[1] = "zero";
+    return bne();
+}
+bool Command::blez() {
+    args[2] = args[1];
+    args[1] = args[0];
+    args[0] = "zero";
+    return bge();
+}
+bool Command::bgez() {
+    args[2] = args[1];
+    args[1] = "zero";
+    return bge();
+}
+bool Command::bltz() {
+    args[2] = args[1];
+    args[1] = "zero";
+    return blt();
+}
+bool Command::bgtz() {
+    args[2] = args[1];
+    args[1] = args[0];
+    args[0] = "zero";
+    return blt();
+}
+bool Command::bgt() {
+    std::swap(args[0], args[1]);
+    return blt();
+}
+bool Command::ble() {
+    std::swap(args[0], args[1]);
+    return bge();
+}
+bool Command::bgtu() {
+    std::swap(args[0], args[1]);
+    return bltu();
+}
+bool Command::bleu() {
+    std::swap(args[0], args[1]);
+    return bgeu();
+}

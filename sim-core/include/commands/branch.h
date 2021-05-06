@@ -1,5 +1,8 @@
 #pragma once
 
+void jumpTo(std::string&);
+void jumpTo(int);
+
 // JAL
 bool jal();
 
