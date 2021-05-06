@@ -77,7 +77,7 @@ bool Command::sb() {
     int addr = offsetParser(args[1]);
     unsigned long long data = static_cast<unsigned long long>(mem->get(addr/8*8));
     unsigned long long wdata = static_cast<unsigned long long>(reg->get(args[0]));
-    data = data&((-1ll)^(0xffllu<<(addr%8*8)));
+    data = data&((0xffffffffffffffffllu)^(0xffllu<<(addr%8*8)));
     data |= (wdata&0xffllu)<<(addr%8*8);
     mem->set(addr/8*8, static_cast<long long>(data));
     return true;
@@ -90,7 +90,7 @@ bool Command::sh() {
     }
     unsigned long long data = static_cast<unsigned long long>(mem->get(addr/8*8));
     unsigned long long wdata = static_cast<unsigned long long>(reg->get(args[0]));
-    data = data&((-1ll)^(0xffffllu<<(addr%8*8)));
+    data = data&((0xffffffffffffffffllu)^(0xffffllu<<(addr%8*8)));
     data |= (wdata&0xffffllu)<<(addr%8*8);
     mem->set(addr/8*8, static_cast<long long>(data));
     return true;
@@ -103,7 +103,7 @@ bool Command::sw() {
     }
     unsigned long long data = static_cast<unsigned long long>(mem->get(addr/8*8));
     unsigned long long wdata = static_cast<unsigned long long>(reg->get(args[0]));
-    data = data&((-1ll)^(0xffffffffllu<<(addr%8*8)));
+    data = data&((0xffffffffffffffffllu)^(0xffffffffllu<<(addr%8*8)));
     data |= (wdata&0xffffffffllu)<<(addr%8*8);
     mem->set(addr/8*8, static_cast<long long>(data));
     return true;
