@@ -1,5 +1,4 @@
 import { app, BrowserWindow, ipcMain} from "electron";
-import * as AppMenu from "./models/appmenu"
 
 let mainWindow: BrowserWindow;
 
@@ -14,7 +13,7 @@ function createWindow() {
 	//AppMenu.createMenu();
 	mainWindow.setMenuBarVisibility(false);
 	mainWindow.loadURL(`file://${__dirname}/../views/index.html`);
-	mainWindow.webContents.openDevTools();
+	//mainWindow.webContents.openDevTools();
 }
 
 app.on('ready', createWindow);

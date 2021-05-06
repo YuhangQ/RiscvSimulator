@@ -39,4 +39,6 @@ private:
     bool ld();
     bool call();
     bool jr();
+    bool beq();
+    bool bne();
 };

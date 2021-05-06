@@ -14,7 +14,7 @@ public:
     Simulator(std::vector<std::string> &input);
     ~Simulator();
     int currentLine();
-    void nextStep();
+    bool nextStep();
     bool end();
     void execToEnd();
     void addBreakPoint(int line);

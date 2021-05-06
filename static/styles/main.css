@@ -47,6 +47,14 @@ body {
     border-color: rgb(208, 208, 208);
 }
 
+
+.errorDecoration {
+	background-color:  rgba(255, 0, 0, 0.274) !important;
+	cursor: pointer;
+	font-weight: bold;
+	font-style: oblique;
+}
+
 .myInlineDecoration {
 	background-color:  rgba(9, 255, 0, 0.274) !important;
 	cursor: pointer;
