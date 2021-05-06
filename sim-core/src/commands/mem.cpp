@@ -79,7 +79,7 @@ bool Command::sb() {
     unsigned long long wdata = static_cast<unsigned long long>(reg->get(args[0]));
     data = data&((-1ll)^(0xffllu<<(addr%8*8)));
     data |= (wdata&0xffllu)<<(addr%8*8);
-    mem->set(addr/8*8, data);
+    mem->set(addr/8*8, static_cast<long long>(data));
     return true;
 } // TODO
 bool Command::sh() {
@@ -92,7 +92,7 @@ bool Command::sh() {
     unsigned long long wdata = static_cast<unsigned long long>(reg->get(args[0]));
     data = data&((-1ll)^(0xffffllu<<(addr%8*8)));
     data |= (wdata&0xffffllu)<<(addr%8*8);
-    mem->set(addr/8*8, data);
+    mem->set(addr/8*8, static_cast<long long>(data));
     return true;
 }
 bool Command::sw() {
@@ -105,7 +105,7 @@ bool Command::sw() {
     unsigned long long wdata = static_cast<unsigned long long>(reg->get(args[0]));
     data = data&((-1ll)^(0xffffffffllu<<(addr%8*8)));
     data |= (wdata&0xffffffffllu)<<(addr%8*8);
-    mem->set(addr/8*8, data);
+    mem->set(addr/8*8, static_cast<long long>(data));
     return true;
 }
 bool Command::sd() {
