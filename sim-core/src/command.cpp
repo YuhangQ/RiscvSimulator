@@ -19,133 +19,103 @@ bool Command::exec() {
     argOut += "]";
     Logger::log(argOut);
 
-    if(name == "addi") return addi();
-    if(name == "sd") return sd();
-    if(name == "sw") return sw();
-    if(name == "li") return li();
-    if(name == "j") return j();
-    if(name == "lw") return lw();
-    if(name == "sext.w") return sextw();
-    if(name == "addiw") return addiw();
+    if(name == "jal") return jal();
+    if(name == "jalr") return jalr();
+    if(name == "beq") return beq();
+    if(name == "bne") return bne();
+    if(name == "blt") return blt();
     if(name == "bge") return bge();
-    if(name == "ble") return ble();
-    if(name == "mulw") return mulw();
-    if(name == "addw") return addw();
-    if(name == "mv") return mv();
-    if(name == "ld") return ld();
-    if(name == "call") return call();
+    if(name == "bltu") return bltu();
+    if(name == "bgeu") return bgeu();
+    if(name == "j") return j();
     if(name == "jr") return jr();
-    if(name == "nop") return true;
+    if(name == "ret") return ret();
+    if(name == "call") return call();
+    if(name == "tail") return tail();
+    if(name == "beqz") return beqz();
+    if(name == "bnez") return bnez();
+    if(name == "blez") return blez();
+    if(name == "bgez") return bgez();
+    if(name == "bltz") return bltz();
+    if(name == "bgtz") return bgtz();
+    if(name == "bgt") return bgt();
+    if(name == "ble") return ble();
+    if(name == "bgtu") return bgtu();
+    if(name == "bleu") return bleu();
+    if(name == "lb") return lb();
+    if(name == "lh") return lh();
+    if(name == "lw") return lw();
+    if(name == "ld") return ld();
+    if(name == "lbu") return lbu();
+    if(name == "lhu") return lhu();
+    if(name == "lwu") return lwu();
+    if(name == "sb") return sb();
+    if(name == "sh") return sh();
+    if(name == "sw") return sw();
+    if(name == "sd") return sd();
+    if(name == "lui") return lui();
+    if(name == "auipc") return auipc();
+    if(name == "fence") return fence();
+    if(name == "ecall") return ecall();
+    if(name == "ebreak") return ebreak();
+    if(name == "mul") return mul();
+    if(name == "mulh") return mulh();
+    if(name == "mulhsu") return mulhsu();
+    if(name == "mulhu") return mulhu();
+    if(name == "div") return div();
+    if(name == "divu") return divu();
+    if(name == "rem") return rem();
+    if(name == "remu") return remu();
+    if(name == "mulw") return mulw();
+    if(name == "divw") return divw();
+    if(name == "divuw") return divuw();
+    if(name == "remw") return remw();
+    if(name == "remuw") return remuw();
+    if(name == "add") return add();
+    if(name == "sub") return sub();
+    if(name == "slt") return slt();
+    if(name == "sltu") return sltu();
+    if(name == "xor") return xor_();
+    if(name == "or") return or_();
+    if(name == "and") return and_();
+    if(name == "sll") return sll();
+    if(name == "srl") return srl();
+    if(name == "sra") return sra();
+    if(name == "addw") return addw();
+    if(name == "subw") return subw();
+    if(name == "sllw") return sllw();
+    if(name == "srlw") return srlw();
+    if(name == "sraw") return sraw();
+    if(name == "addi") return addi();
+    if(name == "slti") return slti();
+    if(name == "sltiu") return sltiu();
+    if(name == "xori") return xori();
+    if(name == "ori") return ori();
+    if(name == "andi") return andi();
+    if(name == "slli") return slli();
+    if(name == "srli") return srli();
+    if(name == "srai") return srai();
+    if(name == "addiw") return addiw();
+    if(name == "slliw") return slliw();
+    if(name == "srliw") return srliw();
+    if(name == "sraiw") return sraiw();
+    if(name == "nop") return nop();
+    if(name == "li") return li();
+    if(name == "mv") return mv();
+    if(name == "not") return not_();
+    if(name == "neg") return neg();
+    if(name == "negw") return negw();
+    if(name == "sext.w") return sextw();
+    if(name == "seqz") return seqz();
+    if(name == "snez") return snez();
+    if(name == "sltz") return sltz();
+    if(name == "sgtz") return sgtz();
 
     Logger::log("stop..... no handler of " + name);
-    exit(0);
-    
+    exit(1);
 
     return false;
 }
-
-bool Command::jr() {
-    *(this->pc) = reg->get(args[0]);
-    Logger::log("pc = " + std::to_string(reg->get(args[0])));
-
-    return true;
-}
-
-bool Command::call() {
-    reg->set("ra", *pc);
-    *(this->pc) = (*jTarget)[args[0]] - 1;
-    Logger::log("pc = " + std::to_string((*jTarget)[args[0]] - 1));
-
-    return true;
-}
-
-bool Command::ld() {
-    auto addr = offsetParser(args[1]);
-    reg->set(args[0], mem->get(reg->get(addr.first) + addr.second));
-    return true;
-}
-
-
-bool Command::mv() {
-    reg->set(args[0], reg->get(args[1]));
-    return true;
-}
-
-
-bool Command::addw() {
-    reg->set(args[0], reg->get(args[1]) + reg->get(args[2]));
-    return true;
-}
-
-bool Command::mulw() {
-    reg->set(args[0], reg->get(args[1]) * reg->get(args[2]));
-    return true;
-}
-
-bool Command::bge() {
-    if(reg->get(args[0]) >= reg->get(args[1])) {
-        *(this->pc) = (*jTarget)[args[2]] - 1;
-        Logger::log("pc = " + std::to_string((*jTarget)[args[2]]));
-    }
-    return true;
-}
-bool Command::ble() {
-    if(reg->get(args[0]) <= reg->get(args[1])) {
-        *(this->pc) = (*jTarget)[args[2]] - 1;
-        Logger::log("pc = " + std::to_string((*jTarget)[args[2]]));
-    }
-    return true;
-}
-
-bool Command::sextw() {
-    reg->set(args[0], (int)reg->get(args[1]));
-    return true;
-}
-bool Command::addiw() {
-    reg->set(args[0], (int)reg->get(args[1]) + std::atoll(args[2].c_str()));
-    return true;
-}
-
-bool Command::lw() {
-    auto addr = offsetParser(args[1]);
-    reg->set(args[0], (int)mem->get(reg->get(addr.first) + addr.second));
-    return true;
-}
-
-bool Command::j() {
-    *(this->pc) = (*jTarget)[args[0]] - 1;
-    /*
-    for(auto it = jTarget->begin(); it != jTarget->end(); it++) {
-        Logger::log(it->first + ":" + std::to_string(it->second));
-    }
-    */
-    Logger::log("pc = " + std::to_string((*jTarget)[args[0]]));
-    return true;
-}
-
-bool Command::li() {
-    reg->set(args[0], std::atoll(args[1].c_str()));
-    return true;
-}
-
-bool Command::addi() {
-    reg->set(args[0], reg->get(args[1]) + std::atoll(args[2].c_str()));
-    return true;
-}
-
-bool Command::sd() {
-    auto addr = offsetParser(args[1]);
-    mem->set(reg->get(addr.first)+addr.second, reg->get(args[0]));
-    return true;
-}
-
-bool Command::sw() {
-    auto addr = offsetParser(args[1]);
-    mem->set(reg->get(addr.first)+addr.second, reg->get(args[0]));
-    return true;
-}
-
-
 
 std::pair<std::string, int> Command::offsetParser(std::string s) {
     std::vector<std::string> res = Utils::splitString(s, "(");

@@ -3,6 +3,7 @@
     {
       "target_name": "core",
       "sources": [
+        "./src/commands/*.cpp",git 
         "./src/*.cpp"
       ],
       "include_dirs": [
